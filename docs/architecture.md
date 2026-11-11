@@ -87,6 +87,11 @@ macdsp aggregate create --name "macdsp-out" \
    do X" result for steps macOS won't let software do.
 5. **Undoable.** `uninstall` and `system-output restore` always leave the Mac
    producing sound through its original output.
+6. **Every default is a choice.** Mains highpass, slope, subsonic filter,
+   sub mono-summing, limiter threshold, starting volume and so on all have
+   sensible defaults, but the user (through the agent) can override each one.
+   Commands report which values came from defaults (`"defaulted": [...]` in
+   `--json` output) so the agent can tell the user what it assumed.
 
 ---
 
@@ -442,7 +447,7 @@ These could change the design, so test them before building the rest:
    interface (preferred: one clock, no aggregate) or a second device in an
    aggregate. If the second device would be the built-in jack, that conflicts
    with the "exclude built-in" rule.
-2. **Mains highpass default**: on (true crossover) or off (sub just adds low end)?
+2. ~~Mains highpass default~~ — **decided: on by default**, `--mains-highpass off` to override.
 3. Does the sub have its own lowpass knob or an LFE/bypass input? Docs should
    tell users to set it to max/bypass so the two lowpasses don't stack.
 4. Is **Python + PyObjC** acceptable, or should the CoreAudio parts be a small
